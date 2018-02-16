@@ -13,11 +13,13 @@ import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
+import timber.log.Timber;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
-    private static final String NULL_TEXT = "null";
+    private static final String NULL_TEXT = "Not available";
 
     private static final String IMAGE_STATE = "image";
     private static final String ORIGIN_STATE = "origin";
@@ -98,42 +100,44 @@ public class DetailActivity extends AppCompatActivity {
                 .load(sandwich.getImage())
                 .into(ingredientsIv);
 
-        if (sandwich.getPlaceOfOrigin().length() == 0) {
+        Timber.d(sandwich.getImage());
+
+        if (sandwich.getPlaceOfOrigin().isEmpty()) {
             originTv.setText(NULL_TEXT);
-        }else {
+        } else {
             originTv.setText(sandwich.getPlaceOfOrigin());
         }
 
         descriptionTv.setText(sandwich.getDescription());
 
 
-        if (sandwich.getIngredients().size() == 0) {
+        int ingredientCount = 0;
+        if (sandwich.getIngredients().size() > 0) {
+            for (String ingredient : sandwich.getIngredients()) {
+                ingredientCount++;
+                if (ingredientCount != sandwich.getIngredients().size()) {
+                    ingredientsTv.append(ingredient + "\n");
+                }
+
+                ingredientsTv.append(ingredient);
+            }
+        } else {
             ingredientsTv.setText(NULL_TEXT);
         }
 
-        int ingredientCount = 0;
-        for (String ingredient : sandwich.getIngredients()) {
-            ingredientCount++;
-            if (ingredientCount != sandwich.getIngredients().size()) {
-                ingredientsTv.append(ingredient + "\n");
-            }
-
-            ingredientsTv.append(ingredient);
-        }
-
-
-        if (sandwich.getAlsoKnownAs().size() == 0) {
-            alsoKnownAsTV.setText(NULL_TEXT);
-        }
 
         int knownCount = 0;
-        for (String knownOnes : sandwich.getAlsoKnownAs()) {
-            knownCount++;
-            if (knownCount != sandwich.getAlsoKnownAs().size()) {
-                alsoKnownAsTV.append(knownOnes + "\n");
-            }
+        if (sandwich.getAlsoKnownAs().size() > 0) {
+            for (String knownOnes : sandwich.getAlsoKnownAs()) {
+                knownCount++;
+                if (knownCount != sandwich.getAlsoKnownAs().size()) {
+                    alsoKnownAsTV.append(knownOnes + "\n");
+                }
 
-            alsoKnownAsTV.append(knownOnes);
+                alsoKnownAsTV.append(knownOnes);
+            }
+        } else {
+            alsoKnownAsTV.setText(NULL_TEXT);
         }
     }
 
