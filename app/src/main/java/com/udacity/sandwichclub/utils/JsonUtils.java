@@ -40,8 +40,6 @@ public class JsonUtils {
                     }
 
                     sandwich.setAlsoKnownAs(known);
-                } else {
-                    sandwich.setAlsoKnownAs(null);
                 }
             }
 
@@ -72,10 +70,7 @@ public class JsonUtils {
                 }
 
                 sandwich.setIngredients(ingredient);
-            } else {
-                sandwich.setIngredients(null);
             }
-
 
         } catch (JSONException e) {
             Timber.d(e.getMessage());

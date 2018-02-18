@@ -58,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
             descriptionTv.setText(savedInstanceState.getString(DESCRIPTION_STATE));
             ingredientsTv.setText(savedInstanceState.getString(INGREDIENTS_STATE));
             alsoKnownAsTV.setText(savedInstanceState.getString(ALSO_KNOWN_SATE));
+
         } else {
             Intent intent = getIntent();
             if (intent == null) {
