@@ -22,60 +22,59 @@ public class JsonUtils {
     private static final String ALSO_KNOWN_AS_FIELD = "alsoKnownAs";
 
     public static Sandwich parseSandwichJson(String json) {
-        Sandwich sandwich = new Sandwich();
+
+        String mainName = "";
+        String description = "";
+        String placeOfOrigin = "";
+        String image = "";
+        List<String> known = null;
+        List<String> ingredient = null;
 
         try {
             JSONObject jsonObject = new JSONObject(json);
 
             if (jsonObject.has(NAME_FIELD)) {
                 JSONObject name = jsonObject.getJSONObject(NAME_FIELD);
-                String mainName = name.optString(MAIN_NAME_FIELD, null);
-                sandwich.setMainName(mainName);
+                mainName = name.optString(MAIN_NAME_FIELD, null);
+
 
                 if (name.has(ALSO_KNOWN_AS_FIELD) && !name.isNull(ALSO_KNOWN_AS_FIELD)) {
                     JSONArray alsoKnownAs = name.getJSONArray(ALSO_KNOWN_AS_FIELD);
-                    List<String> known = new ArrayList<>();
+                    known = new ArrayList<>();
                     for (int l = 0; l < alsoKnownAs.length(); l++) {
                         known.add(alsoKnownAs.optString(l, null));
                     }
-
-                    sandwich.setAlsoKnownAs(known);
                 }
             }
 
 
             if (jsonObject.has(DESCRIPTION_FIELD)) {
-                String description = jsonObject.optString(DESCRIPTION_FIELD, null);
-                sandwich.setDescription(description);
+                description = jsonObject.optString(DESCRIPTION_FIELD, null);
             }
 
 
             if (jsonObject.has(PLACE_OF_ORIGIN_FIELD)) {
-                String placeOfOrigin = jsonObject.optString(PLACE_OF_ORIGIN_FIELD, null);
-                sandwich.setPlaceOfOrigin(placeOfOrigin);
+                placeOfOrigin = jsonObject.optString(PLACE_OF_ORIGIN_FIELD, null);
             }
 
 
             if (jsonObject.has(IMAGE_FIELD)) {
-                String image = jsonObject.optString(IMAGE_FIELD, null);
-                sandwich.setImage(image);
+                image = jsonObject.optString(IMAGE_FIELD, null);
             }
 
 
             if (jsonObject.has(INGREDIENTS_FIELD) && !jsonObject.isNull(INGREDIENTS_FIELD)) {
                 JSONArray ingredients = jsonObject.getJSONArray(INGREDIENTS_FIELD);
-                List<String> ingredient = new ArrayList<>();
+                ingredient = new ArrayList<>();
                 for (int k = 0; k < ingredients.length(); k++) {
                     ingredient.add(ingredients.optString(k, null));
                 }
-
-                sandwich.setIngredients(ingredient);
             }
 
         } catch (JSONException e) {
             Timber.d(e.getMessage());
         }
 
-        return sandwich;
+        return Sandwich.create(mainName, known, description, placeOfOrigin, image, ingredient);
     }
 }

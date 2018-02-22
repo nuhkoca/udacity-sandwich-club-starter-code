@@ -14,7 +14,9 @@ public class Sandwich {
     /**
      * No args constructor for use in serialization
      */
-    public Sandwich() {}
+    public static Sandwich create(String mainName, List<String> alsoKnownAs, String placeOfOrigin, String description, String image, List<String> ingredients) {
+        return new Sandwich(mainName, alsoKnownAs, placeOfOrigin, description, image, ingredients);
+    }
 
     public Sandwich(String mainName, List<String> alsoKnownAs, String placeOfOrigin, String description, String image, List<String> ingredients) {
         this.mainName = mainName;
