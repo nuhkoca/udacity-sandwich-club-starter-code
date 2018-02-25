@@ -75,6 +75,6 @@ public class JsonUtils {
             Timber.d(e.getMessage());
         }
 
-        return Sandwich.create(mainName, known, description, placeOfOrigin, image, ingredient);
+        return Sandwich.create(mainName, known, placeOfOrigin, description, image, ingredient);
     }
 }
